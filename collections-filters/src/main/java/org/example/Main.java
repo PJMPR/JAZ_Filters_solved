@@ -71,14 +71,14 @@ public class Main {
          * i zobaczyłeś/aś, że kod wcześniej da się uogólnić.
          * Spróbuj to zrobić tworząc klasę GeneralFilter,
          * która w konstruktorze przyjmie dwie lambdy:
-         * -> predykat sprawdzający, czy filtr ma być użyty
+         * -> predykat (użyj interfejsu java Predicate<SearchParameters>) sprawdzający, czy filtr ma być użyty
          * -> własny predykat który przyjmie dwie wartości,
          *    który zwróci warunek filtracji (tutaj trzeba będzie dostarczyć własny interfejs funkcjonalny)
          */
 
 //        IFilterPeople genericFilter = new GeneralFilter(
 //                (searchParams)->searchParams.getSelectedGenders().size()>0,
-//                (searchParams, person)->searchParameters.getSelectedGenders().contains(person.getGender())
+//                (searchParams, person)->searchParams.getSelectedGenders().contains(person.getGender())
 //        );
 
 
@@ -116,7 +116,8 @@ public class Main {
          * i jego implementacje jako klasę GeneralCalculator,
          * która ma konstruktor z dwoma argumentami:
          * -> nazwa pola którym będziemy wykonywać obliczenia
-         * -> lambda która zwraca te pole (jak typ danych dla liczb użyj klasy bazowej dla wszystkich liczb)
+         * -> lambda (użyj interfejsu java Function<Person, Number>),
+         *    która zwraca te pole (jak typ danych dla liczb użyj klasy bazowej dla wszystkich liczb)
          */
 
 //        ICalculate incomeCalculator = new GeneralCalculator("income", p-> p.getIncome() );
@@ -138,8 +139,8 @@ public class Main {
          * dodajmy nasze kalkulatory, do obiektu klasy QueryProcessor
          */
 
-//        queryProcessor.addCalculation("income", incomeCalculator)
-//                .addCalculation("age", ageCalculator);
+//        queryProcessor.addCalculation(incomeCalculator)
+//                .addCalculation(ageCalculator);
 
         /**
          * Ostatnim krokiem do zakońćzenia zadania jest
