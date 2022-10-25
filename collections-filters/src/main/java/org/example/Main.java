@@ -42,7 +42,7 @@ public class Main {
          * Niech ten interfejs posiada następujące metody:
          * -> setSearchParameters - setter dla parametrów wyszukiwania
          * -> canFilter - metoda która spawdza czy dany filtr jest będzie teraz wykorzystany
-         * -> filter - metoda któa zwróci nowy odflitrowany strumień kolekcji
+         * -> filter - metoda któa zwróci nowa kolekcje
          */
 
 //        byName.setSearchParameters(searchParameters);
