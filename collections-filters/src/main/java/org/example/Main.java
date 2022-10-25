@@ -10,6 +10,7 @@ import org.example.queries.search.FunctionsParameters;
 import org.example.queries.search.Page;
 import org.example.queries.search.SearchParameters;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -22,7 +23,7 @@ public class Main {
          * Zanim zaczniesz pracę zaznajom się z klasami w projekcie
          */
 
-//        List<Person> sampleData = PeopleSample.Data;
+//        List<Person> sampleData = new ArrayList<>(PeopleSample.Data);
 //
 //        SearchParameters searchParameters = new SearchParameters();
 //
@@ -46,10 +47,9 @@ public class Main {
 
 //        byName.setSearchParameters(searchParameters);
 //
-//        Stream<Person> streamOfPeople = sampleData.stream();
 //
 //        if(byName.canFilter()){
-//            streamOfPeople = byName.filter(streamOfPeople);
+//            sampleData = byName.filter(sampleData);
 //        }
 
         /**
@@ -132,7 +132,7 @@ public class Main {
          */
 
 //        double sumOfIncomes = incomeCalculator
-//                .calculate(new FunctionsParameters("income", Funcs.SUM), streamOfPeople);
+//                .calculate(new FunctionsParameters("income", Funcs.SUM), sampleData);
 //        ICalculate ageCalculator = new GeneralCalculator("age", p-> p.getAge());
 
         /**
@@ -151,7 +151,7 @@ public class Main {
 
 //        ICutToPage pageCutter = new PageCutter();
 //
-//        streamOfPeople = pageCutter.cut(new Page(3,2), streamOfPeople);
+//        streamOfPeople = pageCutter.cut(new Page(3,2), sampleData);
 
         /**
          * dodajmy też ten obiekt do QueryProcessora
