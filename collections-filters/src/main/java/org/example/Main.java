@@ -151,7 +151,7 @@ public class Main {
 
 //        ICutToPage pageCutter = new PageCutter();
 //
-//        streamOfPeople = pageCutter.cut(new Page(3,2), sampleData);
+//        sampleData = pageCutter.cut(new Page(3,2), sampleData);
 
         /**
          * dodajmy też ten obiekt do QueryProcessora
