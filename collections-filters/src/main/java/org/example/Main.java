@@ -126,7 +126,7 @@ public class Main {
          * Niech interfejs posiada metodę o nazwie calculate,
          * która ma dwa parametry:
          * -> obiekt typu FunctionsParameters, który posiada informacje o tym po jakim polu wykonujemy obliczenia oraz rodzaj obliczeń
-         * -> strumień do kolekcji osób
+         * -> Kolekcje osób
          *
          * W wyniku ma zwrócić liczbę double która jest wynikiem obliczeń
          */
