@@ -12,7 +12,6 @@ import org.example.queries.search.SearchParameters;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args){
@@ -23,11 +22,11 @@ public class Main {
          * Zanim zaczniesz pracę zaznajom się z klasami w projekcie
          */
 
-//        List<Person> sampleData = new ArrayList<>(PeopleSample.Data);
-//
-//        SearchParameters searchParameters = new SearchParameters();
-//
-//        searchParameters.setName("jan");
+        List<Person> sampleData = new ArrayList<>(PeopleSample.Data);
+
+        SearchParameters searchParameters = new SearchParameters();
+
+        searchParameters.setName("jan");
 
 
         /**
@@ -76,10 +75,20 @@ public class Main {
          *    który zwróci warunek filtracji (tutaj trzeba będzie dostarczyć własny interfejs funkcjonalny)
          */
 
-//        IFilterPeople genericFilter = new GeneralFilter(
-//                (searchParams)->searchParams.getSelectedGenders().size()>0,
-//                (searchParams, person)->searchParams.getSelectedGenders().contains(person.getGender())
-//        );
+        IFilterPeople byName = new GeneralFilter(
+                sp -> sp.getName()!=null,
+                (sp, p) -> p.getName().contains(sp.getName()));
+
+        IFilterPeople byAgeToFilter = new GeneralFilter(sp->sp.getAgeTo()>0,
+                (sp, p) -> p.getAge()<=sp.getAgeTo());
+
+        IFilterPeople byAgeFromFilter = new GeneralFilter(sp->sp.getAgeFrom()>0,
+                (sp, p) -> p.getAge()<=sp.getAgeFrom());
+
+        IFilterPeople genericFilter = new GeneralFilter(
+                (searchParams)->searchParams.getSelectedGenders().size()>0,
+                (searchParams, person)->searchParams.getSelectedGenders().contains(person.getGender())
+        );
 
 
         /**
@@ -87,11 +96,11 @@ public class Main {
          * na dodawanie filtrów do kolekcji
          */
 
-//        QueryProcessor queryProcessor = new QueryProcessor()
-//                .addFilter(byName)
-//                .addFilter(byAgeToFilter)
-//                .addFilter(byAgeToFilter)
-//                .addFilter(genericFilter);
+        QueryProcessor queryProcessor = new QueryProcessor()
+                .add(byName)
+                .add(byAgeToFilter)
+                //.add(byAgeFromFilter)
+                .add(genericFilter);
 
         /**
          * Dostarcz dwa obiekty generycznego filtra:
@@ -105,8 +114,17 @@ public class Main {
          * W tym miejscu pozwalam na edycje maina *
          ******************************************/
 
-//        queryProcessor.addFilter(byIncomeToGenericFilter)
-//                .addFilter(byIncomeFromGenericFilter);
+        var byIncomeToGenericFilter = new GeneralFilter(
+                sp->sp.getIncomeTo()>0,
+                (sp,p)->p.getIncome()< sp.getIncomeTo()
+        );
+        var byIncomeFromGenericFilter = new GeneralFilter(
+                sp->sp.getIncomeFrom()>0,
+                (sp,p)->p.getIncome()< sp.getIncomeFrom()
+        );
+
+        queryProcessor.add(byIncomeToGenericFilter)
+                .add(byIncomeFromGenericFilter);
 
 
         /**
@@ -120,7 +138,7 @@ public class Main {
          *    która zwraca te pole (jak typ danych dla liczb użyj klasy bazowej dla wszystkich liczb)
          */
 
-//        ICalculate incomeCalculator = new GeneralCalculator("income", p-> p.getIncome() );
+        ICalculate incomeCalculator = new GeneralCalculator("income", p-> p.getIncome() );
 
         /**
          * Niech interfejs posiada metodę o nazwie calculate,
@@ -131,16 +149,17 @@ public class Main {
          * W wyniku ma zwrócić liczbę double która jest wynikiem obliczeń
          */
 
-//        double sumOfIncomes = incomeCalculator
-//                .calculate(new FunctionsParameters("income", Funcs.SUM), sampleData);
-//        ICalculate ageCalculator = new GeneralCalculator("age", p-> p.getAge());
+        double sumOfIncomes = incomeCalculator
+                .calculate(new FunctionsParameters("income", Funcs.SUM), sampleData);
+        ICalculate ageCalculator = new GeneralCalculator("age", p-> p.getAge());
 
         /**
          * dodajmy nasze kalkulatory, do obiektu klasy QueryProcessor
          */
 
-//        queryProcessor.addCalculation(incomeCalculator)
-//                .addCalculation(ageCalculator);
+
+        queryProcessor.add(incomeCalculator)
+                .add(ageCalculator);
 
         /**
          * Ostatnim krokiem do zakońćzenia zadania jest
@@ -149,15 +168,19 @@ public class Main {
          * będzie "kroiła" strumień osób do wcześniej zadeklarowanej strony wyników
          */
 
-//        ICutToPage pageCutter = new PageCutter();
-//
-//        sampleData = pageCutter.cut(new Page(3,2), sampleData);
+        //ICutToPage pageCutter = new PageCutter();
+        ICutToPage pageCutter =
+                (page, data)
+                        ->
+                        data.stream().skip((page.getPageNumber()-1)* page.getSize()).limit(page.getSize()).toList();
+
+        sampleData = pageCutter.cut(new Page(3,2), sampleData);
 
         /**
          * dodajmy też ten obiekt do QueryProcessora
          */
 
-//        queryProcessor.addPageCutter(pageCutter);
+        queryProcessor.add(pageCutter);
 
         /**
          * I teraz wisienka na torcie,
@@ -167,14 +190,14 @@ public class Main {
          * oraz zwróćmy rządaną stronę wyników
          */
 
-//        Results results = queryProcessor.GetResults(sampleSearchParams(), PeopleSample.Data);
-//
-//        if(!resultsAreGood(results)){
-//            System.out.println("filtrowanie nie działa prawidłowo :(");
-//            return;
-//        }
-//
-//        System.out.println("wygląda akceptowalnie.");
+        Results results = queryProcessor.GetResults(sampleSearchParams(), PeopleSample.Data);
+
+        if(!resultsAreGood(results)){
+            System.out.println("filtrowanie nie działa prawidłowo :(");
+            return;
+        }
+
+        System.out.println("wygląda akceptowalnie.");
 
     }
 
